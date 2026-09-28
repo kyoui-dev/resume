@@ -1,0 +1,614 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{HTML}{2b7b89} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={김기호의 이력서},
+    pdfauthor={김기호},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+\usepackage{kotex} % support korean language
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large\color{primaryColor}}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{\textit{#2}}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in July 2026}\hspace{\widthof{Last updated in July 2026}}
+    }}}%
+  }%
+}%
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont\textcolor{primaryColor}{Kiho Kim}
+
+        \normalsize
+        \kern 5.0 pt%
+        \mbox{
+            \faEnvelope[regular]%
+            \hspace{0.1 cm}%
+            \href{mailto:kyoui.dev@gmail.com}{kyoui.dev@gmail.com}
+        }%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{
+            \textcolor[HTML]{34C759}{\faPhone}%
+            \hspace{0.1 cm}%
+            \href{tel:+82 10-9018-0316}{+82 10-9018-0316}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{
+            \textcolor[HTML]{0A66C2}{\faLinkedin}%
+            \hspace{0.1 cm}%
+            \href{https://linkedin.com/in/kyoui-dev}{linkedin.com/in/kyoui-dev}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{
+            \faGithub%
+            \hspace{0.1 cm}%
+            \href{https://github.com/kyoui-dev}{github.com/kyoui-dev}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{SUMMARY}
+        \begin{onecolentry}
+            \hspace{0.5 cm}
+            ‘왜’라는 질문을 첫 번째 엔지니어링 도구로 사용하는 AI 엔지니어입니다. 무언가를 만들기 전에, 왜 필요한지, 누가 사용할 것인지, 어떤 문제를 해결해야 하는지 이해하려고 합니다. 구현보다 더 어려운 것은 사람들이 무엇을 필요로 하는지 발견하고, 이를 올바른 문제로 정의하는 일이라고 생각합니다. 공공, 금융, 마케팅 등 다양한 도메인의 문제를 Agentic 시스템과 데이터 파이프라인으로 해결한 경험이 있습니다. AI와 데이터 기술을 활용해 사람들에게 실질적인 가치를 전달하는 엔지니어가 되고 싶습니다.
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{EXPERIENCE}
+        \begin{twocolentry}{
+            Mar 2026 -- Present
+        }
+            \textbf{AI 엔지니어}, (주)에이프리카
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item 세렝게티 AI Agent Studio를 활용한 PoC 수행
+                \item 치타를 활용한 LLM 모델 서빙 및 최적화
+                \item 에이전트 개발 및 MCP 서버 구축
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Aug 2025 -- Nov 2025
+        }
+            \textbf{AI 엔지니어 인턴}, (주)딥오토
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Agent Builder 서비스 개발 기여
+                \item 금융 도메인 Agentic 워크플로우 개발 및 PoC 수행
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Aug 2024 -- Mar 2025
+        }
+            \textbf{데이터 엔지니어 인턴}, (주)딥세일즈
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item B2B 잠재고객 추천 시스템 개발
+                \item 콘텐츠 마케팅 성과 모니터링 시스템 구축
+                \item 블로그 멤버 관리 자동화 시스템 구축
+            \end{highlights}
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{EDUCATION}
+        \begin{twocolentry}{
+            Nov 2023 -- Apr 2024
+        }
+            \textbf{부스트캠프 AI Tech}, 6기
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Natural Language Processing 트랙 수료
+                \item 자연어 처리 관련 4개 대회 참가
+                \item 오늘의시: AI 시 생성 서비스 개발
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Sep 2023 -- Nov 2023
+        }
+            \textbf{구글 머신러닝 부트캠프}, 4기
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Deep Learning Specialization 과정 수료
+                \item Kaggle Competition 참가
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Mar 2015 -- Aug 2023
+        }
+            \textbf{경희대학교}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item 산업경영공학과 전공
+            \end{highlights}
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}        
+    \section{PROJECTS}
+        \begin{twocolentry}{
+            May 2026 -- Jun 2026
+        }
+            \textbf{복지서비스 추천 에이전트}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/37f74ec8f70380da8ea8e3bfb9c90aeb?source=copy_link}{\textbf{Notion}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://playmcp.kakao.com/mcp/67434660073905660}{\textbf{PlayMCP}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://drive.google.com/file/d/1bJwHpEAPL_bmNNOpSlURRJnA-4vfDNOm/view?usp=sharing}{\textbf{Demo}}
+        \end{onecolentry}
+            
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 사용자 조건에 맞는 복지서비스를 추천하고, 관심 있는 서비스의 상세 정보를 안내하는 에이전트 개발
+                \item \textbf{접근 방식:} 공공데이터포털 API를 연계한 복지서비스 검색·상세 조회 MCP 툴 개발; 리랭킹 기반 맞춤형 추천 MCP 툴 개발; 복지서비스 추천 MCP 서버 구축; 시나리오 기반 추천 정확도 및 에이전트 동작 평가
+                \item \textbf{결과:} 복지서비스 탐색 비용 절감 및 접근성 제고; PlayMCP 누적 사용자 500명 이상 달성
+                \item \textbf{기술 스택:} Python, Dify, FastMCP
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Jan 2026 -- Feb 2026
+        }
+            \textbf{사회정서 에이전트}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://github.com/kyoui-dev/social-emotional-agent}{\textbf{GitHub}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://drive.google.com/file/d/1SS4lnZZ4xYV0Dn5OcXc2azIR1_l4dUTo/view?usp=sharing}{\textbf{Demo}}
+        \end{onecolentry}
+            
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 청소년 사회정서적 지원과 자살 예방을 위한 Agentic 시스템 개발
+                \item \textbf{접근 방식:} Structured Output을 활용한 실시간 위험 요인 추출; 조건부 분기를 통한 위기 알림 기능 구현; LLM-as-a-Scorer를 활용한 SIQ-JR 및 BDI-II 평가; 대화 내역 및 평가 점수 기반 분석 보고서 생성
+                \item \textbf{결과:} 청소년 자살 위험 모니터링 및 위험 수준 평가 자동화
+                \item \textbf{기술 스택:} Python, LangGraph, Streamlit
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Oct 2025 -- Nov 2025
+        }
+            \textbf{Agent Builder 서비스}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://drive.google.com/file/d/1WF-cKsFLpeKYJn3NkBkesCdnmcinfLIx/view?usp=sharing}{\textbf{Demo}}
+        \end{onecolentry}
+            
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 사용자 요청을 기반으로 실행 가능한 Agentic 워크플로우를 생성하는 AI 서비스 개발
+                \item \textbf{접근 방식:} Deep Research 노드 개발; 추론 단계별 요약 메시지 생성 및 스트리밍 출력 기능 구현; Reflection 단계를 활용한 워크플로우 생성 과정 개선; 자연어 기반 워크플로우 수정 기능 구현
+                \item \textbf{결과:} 서비스의 기능 확장 및 완성도 향상
+                \item \textbf{기술 스택:} Python, LangGraph, MLflow
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Sep 2025 -- Sep 2025
+        }
+            \textbf{부동산 하위시장 분석 워크플로우}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://drive.google.com/file/d/1je_dNIa4m8z-_xLycZlDLBLdY-o0ZeNk/view?usp=sharing}{\textbf{Demo}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 부동산 하위시장 분석을 위한 Agentic 워크플로우 개발
+                \item \textbf{접근 방식:} 분석에 필요한 외부 데이터 소스 통합; Agent-as-Tool 패턴을 활용한 에이전트 간 협업 구현; 초안부터 최종본까지 단계별 리포트 생성
+                \item \textbf{결과:} 약 10페이지 분량의 분석 리포트 생성 자동화
+                \item \textbf{기술 스택:} Python, LangGraph, PandasAI, Streamlit
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Jul 2025 -- Jul 2025
+        }
+            \textbf{논문 요약 및 분석 워크플로우}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://github.com/kyoui-dev/research-paper-summarization-and-analysis}{\textbf{GitHub}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://drive.google.com/file/d/1kHaHzc9Fv7R84VMxt86rZcnPEK1P3vAe/view?usp=sharing}{\textbf{Demo}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 논문 요약 및 분석을 위한 LLM 워크플로우 개발
+                \item \textbf{접근 방식:} Prompt Chaining을 통한 작업의 순차적 단계 분해; 측면별 요약 기반 종합 요약 생성; 인용 문맥 분석을 통한 연구 제안 생성; LLM-as-a-Judge를 활용한 측면별 요약 및 최종 리포트 평가
+                \item \textbf{결과:} 논문의 핵심 내용 파악에 소요되는 시간 약 90\% 단축
+                \item \textbf{기술 스택:} Python, LangGraph, Streamlit
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Feb 2025 -- Feb 2025
+        }
+            \textbf{블로그 멤버 관리 자동화 시스템}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/1a774ec8f703804397b5f1dd27cd18ec?source=copy_link}{\textbf{Notion}}
+        \end{onecolentry}
+        
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 효율적인 콜드메일 마케팅을 위한 블로그 멤버 관리 자동화 시스템 구축
+                \item \textbf{접근 방식:} 멤버의 처리 상태를 관리하는 테이블 설계; 멤버 관리 파이프라인 설계 및 구축; Airflow 기반 파이프라인 자동화
+                \item \textbf{결과:} 콜드메일 마케팅 운영 업무 자동화
+                \item \textbf{기술 스택:} Python, BigQuery, Airflow
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Nov 2024 -- Jan 2025
+        }
+            \textbf{B2B 잠재고객 추천 시스템}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/B2B-1b674ec8f7038011abc0eed294e7e3fd?source=copy_link}{\textbf{Notion}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://drive.google.com/file/d/15kzsuUMp8jopIicWKQSa0dzpCdr2_sCF/view?usp=drive_link}{\textbf{Demo}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 벡터 검색을 활용한 B2B 잠재고객 추천 시스템 개발
+                \item \textbf{접근 방식:} 사용자 검색 쿼리 유형 분류; 검색 쿼리 유형 기반 문서 데이터셋 구축; BigQuery 기반 벡터 검색 파이프라인 구축; 시나리오 기반 추천 정확도 평가
+                \item \textbf{결과:} TIPS 기술과제 목표 성능 달성; 회사 R\&D 예산 확보에 기여
+                \item \textbf{기술 스택:} Python, BigQuery, LangChain, FastAPI
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Sep 2024 -- Nov 2024
+        }
+            \textbf{콘텐츠 마케팅 성과 모니터링 시스템}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/1b574ec8f70380faad0af99f7de7b1a8?source=copy_link}{\textbf{Notion}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 콘텐츠 마케팅 성과 추적을 위한 모니터링 시스템 구축
+                \item \textbf{접근 방식:} 콘텐츠 마케팅 KPI 설계; ETL 파이프라인 설계 및 구축; Airflow 기반 파이프라인 자동화; Looker Studio 대시보드 구축
+                \item \textbf{결과:} 데이터 기반 콘텐츠 마케팅 성과 분석 체계 구축
+                \item \textbf{기술 스택:} Python, BigQuery, Airflow, Looker Studio
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Jul 2024 -- Jul 2024
+        }
+            \textbf{인용 네트워크 노드 분류}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/93d459756cce44ae9ef10b8b5da89873?source=copy_link}{\textbf{Notion}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://github.com/kyoui-dev/citation-network-node-classification}{\textbf{GitHub}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 인용 네트워크에서 각 논문의 주제 영역을 분류하는 모델 실험
+                \item \textbf{접근 방식:} EDA 및 데이터 전처리 수행; GCN, GAT 모델 학습 및 성능 비교; Residual Connection을 통한 모델 성능 개선; 하이퍼파라미터 튜닝을 통한 모델 성능 최적화
+                \item \textbf{결과:} 기존 모델 대비 정확도 최대 10\%p 향상
+                \item \textbf{기술 스택:} Python, Pandas, PyTorch, WandB
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Mar 2024 -- Apr 2024
+        }
+            \textbf{오늘의시: AI 시 생성 서비스}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://awake-kumquat-803.notion.site/AI-1b674ec8f703804c9374e31d42b913a7?source=copy_link}{\textbf{Notion}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-05}{\textbf{GitHub}}
+            \kern 1.0 pt
+            \AND
+            \kern 4.0 pt
+            \href{https://drive.google.com/file/d/1Posof2hvXHmEOwdVl48xTVUwrTU4mYpS/view?usp=drive_link}{\textbf{Demo}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 사용자 감정을 기반으로 어울리는 시를 생성하는 AI 서비스 개발
+                \item \textbf{접근 방식:} 감정 형용사와 어울리는 시 구절 데이터셋 구축; 웹 스크래핑을 통한 시 데이터 수집; mT5 기반 시 구절 생성 모델 파인튜닝; KoGPT 기반 시 생성 모델 파인튜닝; DALL·E를 활용한 시 이미지 생성; FastAPI 기반 웹 서비스 구현
+                \item \textbf{결과:} 사용자 감정 기반 AI 시 생성 서비스 배포
+                \item \textbf{기술 스택:} Python, PyTorch, Hugging Face, FastAPI
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Jan 2024 -- Jan 2024
+        }
+            \textbf{문장 내 개체 간 관계 추출}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://github.com/kyoui-dev/relation-extraction}{\textbf{GitHub}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 문장 내 개체 간 관계를 추출하는 모델 성능 개선
+                \item \textbf{접근 방식:} EDA 및 데이터 전처리 수행; 문장 내 Typed Entity Marker 삽입; 문장 임베딩과 마커 임베딩을 결합하는 선형 레이어 추가; 결합한 임베딩을 관계 예측에 활용
+                \item \textbf{결과:} 기존 모델 대비 Micro F1 Score 7\%p 향상
+                \item \textbf{기술 스택:} Python, Pandas, PyTorch, Hugging Face, WandB
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        \begin{twocolentry}{
+            Oct 2023 -- Oct 2023
+        }
+            \textbf{호텔 예약 취소 예측}
+        \end{twocolentry}
+        \begin{onecolentry}
+            \href{https://github.com/kyoui-dev/hotel-booking-demand}{\textbf{GitHub}}
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{목적:} 호텔 예약 데이터를 기반으로 고객의 예약 취소 여부 예측
+                \item \textbf{접근 방식:} EDA 및 데이터 전처리 수행; Logistic Regression, MLP 모델 구현 및 성능 비교
+                \item \textbf{결과:} Kaggle 리더보드 402팀 중 5위 기록
+                \item \textbf{기술 스택:} Python, Pandas, PyTorch
+            \end{highlights}
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{CONTRIBUTIONS}
+        \begin{onecolentry}
+            \textbf{huggingface/optimum-intel} (\href{https://github.com/huggingface/optimum-intel/pull/1627}{\textbf{\#1627}}) --- OpenVINO Mistral3 모델 지원 추가
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{COURSES}
+        \begin{onecolentry}
+            \href{https://learn.deeplearning.ai/certificates/ce11af1e-7a25-4f02-a0dc-164c144570de?usp=sharing}{\textbf{Agentic AI}} - DeepLearning.AI
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \href{https://learn.deeplearning.ai/accomplishments/e4b8ec62-0ff5-481d-9536-2c43a34fda89?usp=sharing}{\textbf{How Transformer LLMs Work}} - DeepLearning.AI
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \href{https://courses.edx.org/certificates/ca67a160161144b7b506766e49c9acbd}{\textbf{STAT110x: Introduction to Probability}} - HarvardX
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \href{https://codesignal.com/learn/certificates/cm8zkzpup00a1iu0jxois4bml/course-paths/49}{\textbf{Introduction to Machine Learning with Scikit Learn}} - CodeSignal
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \href{https://www.coursera.org/account/accomplishments/specialization/certificate/ZFHHA89GSXHC}{\textbf{Deep Learning Specialization}} - Coursera
+        \end{onecolentry}
+
+    \vspace{5 pt - 0.3 cm}
+    \section{SKILLS}
+        \begin{onecolentry}
+            \textbf{Languages:} Python, C++
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \textbf{Data:} Pandas, PostgreSQL, BigQuery, Airflow, Looker Studio
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \textbf{ML / AI:} Scikit-learn, PyTorch, Hugging Face, LangChain, LangGraph, Dify, FastMCP, vLLM, WandB
+        \end{onecolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \textbf{Web / App:} Flask, FastAPI, Streamlit
+        \end{onecolentry}
+
+\end{document}
